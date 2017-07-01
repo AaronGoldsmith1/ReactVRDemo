@@ -1,19 +1,19 @@
 import React from 'react';
-import { AppRegistry, asset, Pano, Text, View, Box, PointLight, Animated } from 'react-vr';
+import { AppRegistry, asset, Pano, VideoPano, Text, View, Sphere, PointLight, Animated } from 'react-vr';
 
-import BoxObject from './vr/components/BoxObject.js'
+import SphereObject from './vr/components/SphereObject.js'
 
-class TheBox extends React.Component {
+class TheSphere extends React.Component {
   componentDidMount() {
     Animated.createAnimatedComponent(this)
   }
   render() {
     return (
-      <Box
+      <Sphere
       onEnter = {() => console.log(this.props.origin)}
-      dimWidth = {.2}
-      dimHeight = {.2}
-      dimDepth = {.2}
+      radius={0.5}
+      widthSegments={20}
+      heightSegments={12}
       lit = {true}
       style = {{
         color: '#3d3d3d',
@@ -42,6 +42,8 @@ export default class reactVRDemo extends React.Component {
     this.rotate = this.rotate.bind(this);
 
   }
+
+  //rotate function that will be called every frame through the requestAnimationFrame function, updating the rotation on a time measurement basis:
   rotate() {
     const now = Date.now();
     const delta = now - this.lastUpdate;
@@ -65,20 +67,17 @@ export default class reactVRDemo extends React.Component {
   render() {
     return (
       <View>
-        <PointLight
-      intensity = {5}
-      decay = {2}
-      />
-        <Box
+        <PointLight intensity = {5} decay = {2}/>
+        <Sphere
       onEnter = {() => this.setState({
         currentlyRotating: true
       })}
       onExit = {() => this.setState({
         currentlyRotating: false
       })}
-      dimWidth = {.9}
-      dimHeight = {.9}
-      dimDepth = {.9}
+      radius={0.5}
+      widthSegments={20}
+      heightSegments={12}
       lit = {true}
       texture = 'http://i.imgur.com/zNBDyNj.png'
       style = {{
@@ -99,7 +98,9 @@ export default class reactVRDemo extends React.Component {
         ]
       }}
       />
-
+<VideoPano source={{
+        uri: ('../static_assets/space2.mp4')
+      }}></VideoPano>
       </View>
       );
   }
